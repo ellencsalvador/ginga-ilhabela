@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha de Inscrição — 2ª Ginga Ilhabela</title>
+  <style>
+    :root {
+      --azul-marinho: #1b2a4a;
+      --azul-escuro: #111c33;
+      --terracota: #c86d3b;
+      --terracota-escuro: #a85427;
+      --areia: #f7f3ee;
+      --branco: #ffffff;
+      --texto: #22252a;
+      --borda: #dcd4c8;
+      --sucesso: #155724;
+      --sucesso-bg: #d4edda;
+      --sucesso-borda: #a3cfbb;
+      --erro: #b02a37;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, var(--azul-escuro) 0%, var(--azul-marinho) 280px, var(--areia) 280px);
+      color: var(--texto);
+      min-height: 100vh;
+      padding: 20px 14px 48px;
+    }
+
+    .container {
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: var(--branco);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+      margin-bottom: 20px;
+      border-top: 6px solid var(--terracota);
+    }
+
+    .header-top {
+      background: var(--azul-marinho);
+      color: var(--branco);
+      padding: 22px 24px 18px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--terracota);
+      color: var(--branco);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .header-top h1 {
+      font-size: 26px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .header-top p {
+      font-size: 14px;
+      color: #e6ecf5;
+    }
+
+    .header-info {
+      padding: 16px 24px;
+      background: #fffdfb;
+      border-bottom: 1px solid var(--borda);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .header-info strong {
+      color: var(--azul-marinho);
+    }
+
+    .card {
+      background: var(--branco);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(17, 28, 51, 0.08);
+      border: 1px solid var(--borda);
+    }
+
+    .card h2 {
+      font-size: 19px;
+      color: var(--azul-marinho);
+      margin-bottom: 6px;
+    }
+
+    .card .sub {
+      font-size: 13.5px;
+      color: #555c68;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--azul-marinho);
+      margin-bottom: 6px;
+    }
+
+    label span.hint {
+      font-weight: 400;
+      color: #6b7280;
+      font-size: 12.5px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 15px;
+      border: 1.5px solid var(--borda);
+      border-radius: 10px;
+      background: #fcfbfa;
+      color: var(--texto);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--terracota);
+      background: var(--branco);
+      box-shadow: 0 0 0 3px rgba(200, 109, 59, 0.16);
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 520px) {
+      .row-2 {
+        grid-template-columns: 1fr;
+      }
+      .header-top h1 {
+        font-size: 22px;
+      }
+      .card, .header-info {
+        padding: 18px;
+      }
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px 18px;
+      margin-top: 8px;
+      background: var(--terracota);
+      color: var(--branco);
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.05s;
+    }
+
+    .btn-submit:hover {
+      background: var(--terracota-escuro);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.99);
+    }
+
+    .btn-submit:disabled {
+      background: #a59b93;
+      cursor: not-allowed;
+    }
+
+    .status-box {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      line-height: 1.55;
+      display: none;
+    }
+
+    .status-box.success {
+      display: block;
+      background: var(--sucesso-bg);
+      color: var(--sucesso);
+      border: 1.5px solid var(--sucesso-borda);
+    }
+
+    .status-box.error {
+      display: block;
+      background: #fdecec;
+      color: var(--erro);
+      border: 1.5px solid #f5c2c7;
+    }
+
+    .btn-nova {
+      margin-top: 12px;
+      padding: 9px 14px;
+      background: var(--branco);
+      color: var(--azul-marinho);
+      border: 1.5px solid var(--azul-marinho);
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12.5px;
+      color: #5c6370;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-top">
+        <div class="badge">Grupo de Capoeira Vivência • Mestre Rato Branco</div>
+        <h1>2ª Ginga Ilhabela</h1>
+        <p>Vivência com Mestre Touro do RJ</p>
+      </div>
+      <div class="header-info">
+        <div><strong>Data:</strong> 12 de dezembro • Sábado às 17:00</div>
+        <div><strong>Local:</strong> Museu Waldemar Belisário (Vila)</div>
+        <div><strong>Evento:</strong> Batizado, Troca de Graduação e Amostra da Oficina de Capoeira</div>
+      </div>
+    </header>
+
+    <main class="card">
+      <h2>Ficha de Inscrição</h2>
+      <p class="sub">Preencha os dados abaixo para confirmar a participação e auxiliar o professor na preparação dos cordões.</p>
+
+      <form id="inscricaoForm">
+        <div class="form-group">
+          <label for="nomeAluno">Nome do Aluno (Criança ou Adulto) *</label>
+          <input type="text" id="nomeAluno" name="nomeAluno" placeholder="Ex.: João Pedro Silva" required />
+        </div>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label for="dataNascimento">Data de Nascimento *</label>
+            <input type="date" id="dataNascimento" name="dataNascimento" required />
+          </div>
+
+          <div class="form-group">
+            <label for="idade">Idade *</label>
+            <input type="number" id="idade" name="idade" min="1" max="110" placeholder="Calculada automaticamente" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="nomeResponsavel">Nome do Responsável <span class="hint">(obrigatório para criança/juvenil)</span></label>
+          <input type="text" id="nomeResponsavel" name="nomeResponsavel" placeholder="Ex.: Maria Clara Silva (ou deixe em branco se for adulto)" />
+        </div>
+
+        <div class="form-group">
+          <label for="whatsapp">WhatsApp para Contato *</label>
+          <input type="tel" id="whatsapp" name="whatsapp" placeholder="(12) 99999-9999" required />
+        </div>
+
+        <div class="form-group">
+          <label for="tipoGraduacao">Tipo de Participação *</label>
+          <select id="tipoGraduacao" name="tipoGraduacao" required>
+            <option value="">Selecione...</option>
+            <option value="Batizado">Batizado</option>
+            <option value="Troca de Graduação">Troca de Graduação</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="corAtual">Cor Atual do Cordão *</label>
+          <input
+            type="text"
+            id="corAtual"
+            name="corAtual"
+            placeholder="Ex.: Sem cordão (iniciante), Cru, Amarelo, Azul..."
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnEnviar">Enviar Inscrição</button>
+      </form>
+
+      <div id="statusBox" class="status-box"></div>
+    </main>
+
+    <footer class="footer">
+      2ª Ginga Ilhabela • Grupo de Capoeira Vivência — Mestre Rato Branco
+    </footer>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyUeqEEglBYw2f1roh-09tQw4aJhM3O---bvvdgz6GVNJ6uwaO_a1EAQUYR9a8Q0AD3/exec";
+
+    const dataNascInput = document.getElementById("dataNascimento");
+    const idadeInput = document.getElementById("idade");
+    const form = document.getElementById("inscricaoForm");
+    const btnEnviar = document.getElementById("btnEnviar");
+    const statusBox = document.getElementById("statusBox");
+
+    dataNascInput.addEventListener("change", function () {
+      if (!this.value) return;
+      const hoje = new Date();
+      const nasc = new Date(this.value + "T00:00:00");
+      let idade = hoje.getFullYear() - nasc.getFullYear();
+      const mesDiff = hoje.getMonth() - nasc.getMonth();
+      if (mesDiff < 0 || (mesDiff === 0 && hoje.getDate() < nasc.getDate())) {
+        idade--;
+      }
+      if (idade >= 0 && idade <= 110) {
+        idadeInput.value = idade;
+      }
+    });
+
+    function mostrarFormularioNovamente() {
+      statusBox.style.display = "none";
+      statusBox.innerHTML = "";
+      form.style.display = "block";
+      form.reset();
+    }
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      btnEnviar.disabled = true;
+      btnEnviar.textContent = "Enviando inscrição...";
+      statusBox.style.display = "none";
+
+      const nomeSalvo = document.getElementById("nomeAluno").value.trim();
+
+      const payload = {
+        nomeAluno: nomeSalvo,
+        dataNascimento: document.getElementById("dataNascimento").value,
+        idade: document.getElementById("idade").value,
+        nomeResponsavel: document.getElementById("nomeResponsavel").value.trim() || "O próprio (Adulto)",
+        whatsapp: document.getElementById("whatsapp").value.trim(),
+        tipoGraduacao: document.getElementById("tipoGraduacao").value,
+        corAtual: document.getElementById("corAtual").value.trim()
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        form.style.display = "none";
+        statusBox.className = "status-box success";
+        statusBox.innerHTML = `
+          <strong>✅ Inscrição enviada com sucesso!</strong><br>
+          Os dados de <strong>${nomeSalvo}</strong> foram enviados para o professor preparar o cordão.<br>
+          <button type="button" class="btn-nova" id="btnNovaInscricao">Inscrever outro aluno</button>
+        `;
+        statusBox.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        document.getElementById("btnNovaInscricao").addEventListener("click", mostrarFormularioNovamente);
+      } catch (err) {
+        statusBox.className = "status-box error";
+        statusBox.innerHTML =
+          "<strong>❌ Não foi possível enviar agora.</strong><br>Verifique sua conexão com a internet e tente novamente.";
+        statusBox.style.display = "block";
+      } finally {
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = "Enviar Inscrição";
+      }
+    });
+  </script>
+</body>
+</html>
